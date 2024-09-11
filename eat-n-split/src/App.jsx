@@ -23,7 +23,11 @@ const initialFriends = [
 ];
 
 function Button({ children, onClick }) {
-  return <button className="button" onClick={onClick}>{children}</button>;
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default function App() {
@@ -85,10 +89,29 @@ function Friend({ friend }) {
 
 function FormAddFriend() {
   const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState("https://i.pravatar.cc/48?u=499476");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!name || !image) return;
+
+    const id = crypto.randomUUID();
+    const newFriend = {
+      id,
+      name,
+      image: `${image}?=${id}`,
+      balance: 0,
+    };
+
+    console.log(newFriend);
+
+    setName("");
+    setImage("https://i.pravatar.cc/48?u=499476");
+  }
 
   return (
-    <form className="form-add-friend">
+    <form className="form-add-friend" onSubmit={handleSubmit}>
       <label>Friend name</label>
       <input
         type="text"
